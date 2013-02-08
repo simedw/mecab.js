@@ -71,18 +71,22 @@ void ParseError(parse_req *req) {
  */
 void ParseSuccess(parse_req *req) {
   int len = 0;
-  for(const MeCab::Node* node = req->lattice->begin_nodes(0); node; node = node->next){
+  for(const MeCab::Node* node = req->lattice->bos_node(); node; node = node->next){
     len++;
   }
-
+  len -= 2; // since the first and the last one isn't actually a word
   Local<v8::Array> arguments = Array::New(len);
   int pos = 0;
-  for(const MeCab::Node* node = req->lattice->begin_nodes(0); node; node = node->next, pos++){
+  for(const MeCab::Node* node = req->lattice->bos_node(); node; node = node->next){
+    // skip the first and last node
+    if(node->stat == MECAB_BOS_NODE || node->stat == MECAB_EOS_NODE)
+      continue;
     char *tmp = new char[node->length+1];
     strncpy(tmp,node->surface,node->length);
     tmp[node->length] = '\0';
     arguments->Set(Number::New(pos), String::New(tmp));
     delete tmp;
+    pos++;
   }
 
   const unsigned argc = 2;
@@ -147,7 +151,7 @@ Handle<Value> MeCabJS::Parse(const Arguments& args) {
   int status   = uv_queue_work(uv_default_loop(), r, ParseWork, ParseAfter);
   assert(status == 0);
   
-  delete tmp;
+  delete[] tmp;
   return Undefined(); 
 }
 
