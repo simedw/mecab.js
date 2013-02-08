@@ -1,0 +1,7 @@
+{
+  "name" : "mecab",
+  "description" : "Javascript bindings to mecab",
+  "version" : "0.0.1",
+  "author"  : "Simon Edwardsson",
+  "main"    : "build/default/mecab.node"
+}  
