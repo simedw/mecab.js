@@ -2,12 +2,12 @@ mecab.js
 ========
 
 Node.js bindings for mecab (japanese word boundaries)
-
 The original project: http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html
 
 Installation
 ------------
 If you read Japanese, follow the instructions on http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html, do not forget to compile mecab-ipadic with unicode support.
+
 For the rest of us:
 
 Get the latest version of mecab from http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html#download
@@ -31,17 +31,17 @@ sudo make install
 ```
 
 Make sure you have a recent version of Node.js installed.
-Inside the mecab.js
 ```Bash
+git clone https://github.com/simedw/mecab.js.git
+cd mecab.js
 npm install
 ```
 
-Use
+Usage
 ---
 
 ```CoffeeScript
 mecab  = require 'mecab'
-
 input  = '犬が猫を追いかけていました。'
 
 parser = new mecab.MeCab()
