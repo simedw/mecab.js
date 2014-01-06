@@ -1,6 +1,6 @@
 #include "mecab.hpp"
 #include <node.h>
-#include <string>
+#include <string.h>
 #include <iostream>
 #include <mecab.h>
 
@@ -148,7 +148,7 @@ Handle<Value> MeCabJS::Parse(const Arguments& args) {
   req->tagger  = self->_tagger;
   uv_work_t *r = new uv_work_t();
   r->data      = req;
-  int status   = uv_queue_work(uv_default_loop(), r, ParseWork, ParseAfter);
+  int status   = uv_queue_work(uv_default_loop(), r, ParseWork, (uv_after_work_cb)ParseAfter);
   assert(status == 0);
   
   delete[] tmp;
